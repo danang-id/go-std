@@ -1,10 +1,10 @@
-package http_std
+package httpstd
 
 import (
 	"time"
 )
 
-// Response defines standard HTTP Response.
+// Response defines standard httpstd.Response.
 type Response struct {
 	Success   bool            `json:"success"`
 	Timestamp time.Time       `json:"timestamp,omitempty"`
@@ -13,7 +13,7 @@ type Response struct {
 	Data      interface{}     `json:"data,omitempty"`
 }
 
-// EmptyResponse creates a new empty HTTP Response.
+// EmptyResponse creates a new empty httpstd.Response.
 func EmptyResponse() *Response {
 	return &Response{
 		Success:   true,
@@ -24,17 +24,17 @@ func EmptyResponse() *Response {
 	}
 }
 
-// GetMessage returns the HTTP Response's message and whether it's exist or not.
+// GetMessage returns the httpstd.Response's message and whether it's exist or not.
 func (response *Response) GetMessage() (message string, exists bool) {
 	return response.Message, len(response.Message) > 0
 }
 
-// GetErrors returns the HTTP Response's errors and whether it's exist or not.
+// GetErrors returns the httpstd.Response's errors and whether it's exist or not.
 func (response *Response) GetErrors() (errors []ResponseError, exists bool) {
 	return response.Errors, response.Errors != nil && len(response.Errors) > 0
 }
 
-// GetData returns the HTTP Response's data and whether it's exist or not.
+// GetData returns the httpstd.Response's data and whether it's exist or not.
 func (response *Response) GetData() (data interface{}, exists bool) {
 	return response.Data, response.Data != nil
 }
