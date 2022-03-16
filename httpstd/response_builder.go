@@ -149,14 +149,16 @@ func (context *responseBuilderContext) SetStatusCode(statusCode int) ResponseBui
 // Send will call ResponseBuilder.Build() and then send the resulted httpstd.Response via the provided
 // SendFunc callback.
 func (context *responseBuilderContext) Send(callback SendFunc) error {
+	statusCode := context.statusCode
 	response := context.Build()
-	return callback(context.statusCode, response)
+	return callback(statusCode, response)
 }
 
 // Write will call ResponseBuilder.Build() and then write the resulted httpstd.Response using the provided
 // http.ResponseWriter. It will also serialize httpstd.Response into JSON and set the Content-Type header to
 // application/json.
 func (context *responseBuilderContext) Write(writer http.ResponseWriter) (int, error) {
+	statusCode := context.statusCode
 	response := context.Build()
 	data, err := context.encodeJSON(response)
 	if err != nil {
@@ -164,6 +166,6 @@ func (context *responseBuilderContext) Write(writer http.ResponseWriter) (int, e
 	}
 
 	writer.Header().Set("Content-Type", "application/json")
-	writer.WriteHeader(context.statusCode)
+	writer.WriteHeader(statusCode)
 	return writer.Write(data)
 }
